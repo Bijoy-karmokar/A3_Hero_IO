@@ -3,6 +3,7 @@ import Home from "../pages/Home";
 import MainLayouts from "../Layouts/MainLayouts";
 import Apps from "../pages/Apps";
 import Installation from "../pages/Installation";
+import axios from "axios";
 
 const router = createBrowserRouter([
     {
@@ -15,7 +16,11 @@ const router = createBrowserRouter([
             },
             {
                 path:'/apps',
-                element:<Apps></Apps>
+                element:<Apps></Apps>,
+                loader:async()=>{
+                    const res = await axios('/heros.json');
+                    return res.data;
+                }
             },
             {
                 path:'/install',
