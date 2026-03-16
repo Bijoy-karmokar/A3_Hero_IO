@@ -4,6 +4,7 @@ import MainLayouts from "../Layouts/MainLayouts";
 import Apps from "../pages/Apps";
 import Installation from "../pages/Installation";
 import axios from "axios";
+import ErrorPage from "../pages/ErrorPage";
 
 const router = createBrowserRouter([
     {
@@ -25,6 +26,11 @@ const router = createBrowserRouter([
             {
                 path:'/install',
                 element:<Installation></Installation>
+            },
+            {
+                path:'*',
+                element:<ErrorPage></ErrorPage>
+               
             }
         ]
     }
