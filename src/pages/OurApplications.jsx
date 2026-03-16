@@ -1,10 +1,12 @@
 import { Download, Star } from "lucide-react";
 import React from "react";
+import { Link } from "react-router";
 
 const OurApplications = ({ hero }) => {
-  const { companyName, image, downloads, ratingAvg } = hero || {};
+  const {id, companyName, image, downloads, ratingAvg } = hero || {};
   return (
-    <div className="card bg-base-100 shadow-sm">
+   <Link to={`/appDetail/${id}`}>
+        <div className="card bg-base-100 shadow-sm">
       <figure className="p-5 ">
         <img src={image} alt="Heros" className="rounded-xl w-full" />
       </figure>
@@ -23,6 +25,7 @@ const OurApplications = ({ hero }) => {
         </div>
       </div>
     </div>
+   </Link>
   );
 };
 

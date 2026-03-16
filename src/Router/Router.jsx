@@ -5,6 +5,7 @@ import Apps from "../pages/Apps";
 import Installation from "../pages/Installation";
 import axios from "axios";
 import ErrorPage from "../pages/ErrorPage";
+import AppDetails from "../pages/AppDetails";
 
 const router = createBrowserRouter([
     {
@@ -21,6 +22,16 @@ const router = createBrowserRouter([
                 loader:async()=>{
                     const res = await axios('/heros.json');
                     return res.data;
+                }
+            },
+            {
+                path:'/appDetail/:id',
+                element:<AppDetails></AppDetails>,
+                loader:async({params})=>{
+                    const res = await axios('/heros.json');
+                    const heros = res.data.find(hero=>hero.id === parseInt(params.id));
+                    // console.log(heros);
+                    return heros;
                 }
             },
             {
