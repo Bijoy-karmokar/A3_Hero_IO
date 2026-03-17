@@ -18,6 +18,7 @@ const Installation = () => {
   useEffect(() => {
     const storedIds = getApps();
     const myApps = apps.filter((app) => storedIds.includes(app.id));
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setApp(myApps);
   }, [apps]);
 

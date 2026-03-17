@@ -3,6 +3,7 @@ import GoogleLogo from '../assets/GoogleLogo.png'
 import AppLogo from '../assets/AppLogo.png'
 import Hero from "../assets/hero.png"
 import StatsInfo from "./StatsInfo";
+import { Link } from "react-router";
 
 const Banner = () => {
   return (
@@ -11,14 +12,18 @@ const Banner = () => {
         <h2 className="text-6xl font-bold">We Build <span className="text-purple-700"><br /> Productive</span> Apps</h2>
       <p className="text-lg text-gray-500">At HERO.IO, we craft innovative apps designed to make everyday life simpler, smarter, and more exciting. <br /> Our goal is to turn your ideas into digital experiences that truly make an impact.</p>
       <div className="flex items-center justify-center gap-4">
+         <Link to={"https://play.google.com/store/games"}>
          <button className="btn flex items-center ">
             <img className="w-6" src={GoogleLogo} alt="googleLogo" />
             <span className="text-lg font-bold">Google Play</span>
          </button>
+         </Link>
+         <Link to={"https://www.apple.com/app-store/"}>
          <button className="btn flex items-center ">
             <img className="w-6" src={AppLogo} alt="applogo" />
             <span className="text-lg font-bold">App Store</span>
          </button>
+         </Link>
       </div>
       </div>
 
