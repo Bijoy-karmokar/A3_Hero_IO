@@ -2,50 +2,85 @@ import React, { useEffect, useState } from "react";
 import { useLoaderData } from "react-router";
 import { getApps } from "../utility/apps";
 import InstallCard from "../components/InstallCard";
+import ErrorApps from "./ErrorApps"
 
 const Installation = () => {
   const [app, setApp] = useState([]);
+  const [sort, setSort] = useState(""); 
+
   const apps = useLoaderData();
-  
+
+
   const handleRemove = (id) => {
-  setApp(prev => prev.filter(app => app.id !== id));
-};
-  // console.log(apps);
+    setApp((prev) => prev.filter((app) => app.id !== id));
+  };
+
   useEffect(() => {
-    const appsData = getApps();
-    // console.log(appsData);
-    const myApps = apps.filter((app) => appsData.includes(app.id));
-    // eslint-disable-next-line react-hooks/set-state-in-effect
+    const storedIds = getApps();
+    const myApps = apps.filter((app) => storedIds.includes(app.id));
     setApp(myApps);
-  }, []);
-  // console.log(app);
+  }, [apps]);
+
+
+  const sortedApps = [...app].sort((a, b) => {
+    if (sort === "asc") return a.downloads - b.downloads;
+    if (sort === "desc") return b.downloads - a.downloads;
+    return 0;
+  });
 
   return (
     <div className="bg-base-200 py-16">
+      
+      {/* Header */}
       <div className="text-center space-y-2">
         <h2 className="text-4xl font-bold">Your Installed Apps</h2>
         <p className="text-lg text-gray-500">
           Explore All Trending Apps on the Market developed by us
         </p>
       </div>
-      <div className="flex justify-between items-center px-10">
-        <p className="text-3xl font-semibold">{app.length} Apps Found</p>
+
+      {/* Top Section */}
+      <div className="flex justify-between items-center px-10 my-6">
+        <p className="text-3xl font-semibold">
+          {sortedApps.length} Apps Found
+        </p>
+
+        {/* Dropdown */}
         <details className="dropdown">
-          <summary className="btn m-1">Sort By Size</summary>
-          <ul className="menu dropdown-content bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
+          <summary className="btn m-1">Sort By Downloads</summary>
+          <ul className="menu dropdown-content bg-base-100 rounded-box z-10 w-56 p-2 shadow">
+            
             <li>
-              <a>Item 1</a>
+              <a onClick={() => setSort("asc")}>
+                Ascending by Downloads
+              </a>
             </li>
+
             <li>
-              <a>Item 2</a>
+              <a onClick={() => setSort("desc")}>
+                Descending by Downloads
+              </a>
             </li>
+
           </ul>
         </details>
       </div>
+
+      {/* App List */}
       <div>
-        {app.map((a) => (
-          <InstallCard key={a.id} app={a} onRemove={handleRemove}></InstallCard>
-        ))}
+        {sortedApps.length > 0 ? (
+          sortedApps.map((a) => (
+            <InstallCard
+              key={a.id}
+              app={a}
+              onRemove={handleRemove}
+            />
+          ))
+        ) : (
+          <div className="flex items-center justify-center min-w-screen">
+            <ErrorApps></ErrorApps>
+          </div>
+        )}
       </div>
     </div>
   );
