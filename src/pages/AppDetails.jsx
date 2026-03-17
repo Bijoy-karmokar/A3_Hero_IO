@@ -1,12 +1,15 @@
 import { Download, Star, ThumbsUp } from "lucide-react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useLoaderData } from "react-router";
 import {  Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { getApps, savedApps } from "../utility/apps";
+import Notiflix from "notiflix";
 
 const AppDetails = () => {
   const apps = useLoaderData();
-//   console.log(apps);
-  const {
+ const [isInstalled, setIsInstalled] = useState(false);
+ const {
+    id,
     image,
     title,
     companyName,
@@ -17,12 +20,28 @@ const AppDetails = () => {
     reviews,
     ratings,
   } = apps || {};
+  useEffect(() => {
+    const storedApps = getApps();
+    if (storedApps.includes(id)) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setIsInstalled(true);
+    }
+  }, [id]);
+  
+//   console.log(apps);
+ 
   const sortedRating = [...ratings].reverse();
+
+  const handleInstall=(id)=>{
+       savedApps(id);
+       setIsInstalled(true);
+       Notiflix.Notify.success("Apps added successfully.")
+  }
 
   return (
     <div className="px-10 my-10">
-      <div className="bg-base-200 shadow-sm p-12">
-         <div className="flex items-center gap-6">
+      <div className="bg-base-200 shadow-sm p-12 rounded-2xl">
+         <div className="flex flex-col md:flex-row items-center gap-6">
         <div>
           <img className="rounded-xl shadow-md" src={image} alt="image" />
         </div>
@@ -61,16 +80,30 @@ const AppDetails = () => {
             </div>
           </div>
           
-            <button className="relative rounded px-5 py-2.5 overflow-hidden group bg-green-500 mt-3 hover:bg-gradient-to-r hover:from-green-500 hover:to-green-400 text-white hover:ring-2 hover:ring-offset-2 hover:ring-green-400 transition-all ease-out duration-300" >
-              <span className="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
-              <span className="relative">Install Now({size}MB)</span>
+            <button
+              onClick={() => handleInstall(id)}
+              disabled={isInstalled}
+              className={`relative rounded px-5 py-2.5 overflow-hidden group mt-4 text-white transition-all duration-300 
+                ${
+                  isInstalled
+                    ? "bg-gray-400 cursor-not-allowed"
+                    : "bg-green-500 hover:bg-gradient-to-r hover:from-green-500 hover:to-green-400 hover:ring-2 hover:ring-offset-2 hover:ring-green-400"
+                }`}
+            >
+              <span className="absolute right-0 w-8 h-32 -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40"></span>
+
+              <span className="relative">
+                {isInstalled
+                  ? "Installed"
+                  : `Install Now (${size}MB)`}
+              </span>
             </button>
         
         </div>
       </div>
       </div>
 
-  <div className="my-5" style={{ width: "100%", height: 200 }}>
+  <div className="my-5 shadow-sm p-10 rounded-2xl" style={{ width: "100%", height: 300 }}>
   <h2 className="text-xl font-bold">Ratings</h2>
 
   <ResponsiveContainer width="100%" height="100%">

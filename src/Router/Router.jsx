@@ -36,7 +36,11 @@ const router = createBrowserRouter([
             },
             {
                 path:'/install',
-                element:<Installation></Installation>
+                element:<Installation></Installation>,
+                loader:async()=>{
+                    const res = await axios('/heros.json');
+                    return res.data;
+                }
             },
             {
                 path:'*',
