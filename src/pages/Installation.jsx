@@ -3,14 +3,11 @@ import { useLoaderData } from "react-router";
 import { getApps } from "../utility/apps";
 import InstallCard from "../components/InstallCard";
 import ErrorApps from "./ErrorApps"
-import LoadingSpiner from '../assets/loadingSpiner.json'
-import Lottie from "lottie-react";
+
 
 const Installation = () => {
   const [app, setApp] = useState([]);
   const [sort, setSort] = useState(""); 
-
-
   const apps = useLoaderData();
 
   const handleRemove = (id) => {
@@ -30,13 +27,7 @@ const Installation = () => {
     if (sort === "desc") return b.downloads - a.downloads;
     return 0;
   });
-  if(!sortedApps || sortedApps.length === 0){
-    return (
-      <div className="flex justify-center items-center h-64">
-         <Lottie className="w-80" animationData={LoadingSpiner} />
-      </div>
-    )
-  }
+
   return (
     <div className="bg-base-200 py-16">
       
