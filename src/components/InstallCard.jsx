@@ -1,13 +1,15 @@
 import { Download, Star } from "lucide-react";
 import React from "react";
 import { removedApps } from "../utility/apps";
+import Notiflix from "notiflix";
 
 const InstallCard = ({ app, onRemove }) => {
   const { id, image, title, downloads, ratingAvg, size } = app || {};
 
   const handleRemovedApp = () => {
-    removedApps(id);   
+    removedApps(id);  
     onRemove(id);   
+    Notiflix.Notify.success("Apps Remove Successfully.") 
   };
 
   return (
