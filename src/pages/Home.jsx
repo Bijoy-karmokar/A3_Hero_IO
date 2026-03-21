@@ -1,22 +1,35 @@
-import React, { Suspense } from 'react';
+import React, { useEffect, useState } from 'react';
 import Banner from '../components/Banner';
 import Trending from '../components/Trending';
 import axios from 'axios';
+import Lottie from 'lottie-react';
+import LoadingSpiner from '../assets/loadingSpiner.json';
 
-const fetchHeros = async()=>{
-    const res = await axios.get('/heros.json');
-    // console.log(res.data);
-    return res.data;
-    
-}
 const Home = () => {
-    const promiseHeros = fetchHeros();
+    const [heros, setHeros] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        axios.get('/heros.json')
+            .then(res => {
+                setHeros(res.data);
+                setLoading(false);
+            });
+    }, []);
+
     return (
         <div>
-           <Banner></Banner>
-           <Suspense fallback={<span className="loading loading-bars loading-xl"></span>}>
-            <Trending promiseHeros={promiseHeros}></Trending>
-           </Suspense>
+            <Banner />
+
+            {
+                loading ? (
+                    
+                        <Lottie className='w-80 mx-auto' animationData={LoadingSpiner} />
+                
+                ) : (
+                    <Trending heros={heros} />
+                )
+            }
         </div>
     );
 };

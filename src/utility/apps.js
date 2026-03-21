@@ -14,7 +14,6 @@ const savedApps =(id)=>{
         apps.push(id);
         const data = JSON.stringify(apps);
         localStorage.setItem('apps',data)
-        // console.log(apps);
     }
 }
 

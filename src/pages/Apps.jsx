@@ -10,7 +10,7 @@ const Apps = () => {
   const filterApps = heros.filter((hero) =>
     hero.title.toLowerCase().includes(search.toLowerCase())
   );
-
+  
   return (
     <div className="px-8">
       {/* Header */}

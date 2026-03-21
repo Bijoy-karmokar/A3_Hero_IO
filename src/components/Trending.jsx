@@ -1,10 +1,9 @@
-import React, { use } from "react";
+import React from "react";
 import TrendCard from "./TrendCard";
 import { Link } from "react-router";
 
-const Trending = ({ promiseHeros }) => {
-  const heros = use(promiseHeros);
-//   console.log(heros);
+const Trending = ({ heros }) => {
+
 
   return (
     <div>
@@ -16,8 +15,8 @@ const Trending = ({ promiseHeros }) => {
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 px-8 my-6">
         {heros.slice(0, 8).map((hero) => (
-          <TrendCard key={hero.id} hero={hero}></TrendCard>
-        ))}
+            <TrendCard key={hero.id} hero={hero}></TrendCard>
+          ))}
       </div>
 
       <div className="flex items-center justify-center my-5">
